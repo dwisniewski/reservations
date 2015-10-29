@@ -1,0 +1,25 @@
+#THINGS DONE
+	DB schema
+	DB relations constraints (Cascade deleting)
+
+
+#CURRENTS
+	DB API - models OK, routes - basic OK, controllers - IN PROGRESS (basic done: price, user, room, timeoff, locator w/o reservations, )
+	TESTING REST API (price, user)
+
+#THINS TODO
+	DB API AUTHENTICATION (OAuth2)
+
+	Frontend
+
+
+
+
+#add additional rest
+	locator -> reservation
+	room -> getFreePeriods
+	room -> isFree
+	przetestować czy można dodać rezerwację:
+		czy pokój istnieje
+		czy lokator istnieje
+		czy pokój jest wolny
