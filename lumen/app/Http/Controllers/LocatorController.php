@@ -23,8 +23,28 @@ class LocatorController extends Controller{
 	}
 
 
-	public function getLocatorWithReservations($id) {
-		$locator = Locator::with('reservations')->get()->find($id);
+	public function getLocatorWithReservations(Request $request, $id) {
+		$locator = null;
+		$type = $request->input('type');
+		$time = date('Y-m-d H:i:s');
+
+		switch($type) {
+			case 'future':
+				$locator = Locator::with(array('reservations' => function($q) use ($time) { $q->where('since', '>', $time); }))->
+									get()->
+									find($id);
+				break;
+
+			case 'old':
+				$locator = Locator::with(array('reservations' => function($q) use ($time) { $q->where('since', '<', $time); }))->
+									get()->
+									find($id);
+				break;
+
+			default:
+				$locator = Locator::with('reservations')->get()->find($id);
+				break;
+		}
 
 		if($locator)
 			return response()->json($locator);
