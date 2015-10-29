@@ -13,15 +13,22 @@ class LocatorController extends Controller{
 		return response()->json($locators);
 	}
 
-	public function getLocator(Request $request, $number) {
-		$locator = Locator::find($number);
+	public function getLocator(Request $request, $id) {
+		$locator = Locator::find($id);
 
-		if($locator) {
-			if($request->input('reservations'))
-				$locator = Locator::find($number)->with('reservations')->get();
+		if($locator) 
 			return response()->json($locator);
-		}
 		else
+			return response('Lokator nie został odnaleziony.', 404)->header('Content-Type', 'text/html; charset=utf-8');
+	}
+
+
+	public function getLocatorWithReservations($id) {
+		$locator = Locator::with('reservations')->get()->find($id);
+
+		if($locator)
+			return response()->json($locator);
+		else 
 			return response('Lokator nie został odnaleziony.', 404)->header('Content-Type', 'text/html; charset=utf-8');
 	}
 

@@ -8,8 +8,8 @@ class Locator extends Model {
 	
 	public $timestamps  = false;
 
-	public function rooms() {
-		return $this->hasMany('App\Reservation', 'reservations_rooms');
+	public function reservations() {
+		return $this->hasMany('App\Reservation', 'locator_id', 'id');
 	}
 }
 

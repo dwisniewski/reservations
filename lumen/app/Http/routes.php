@@ -53,6 +53,7 @@ $app->delete('api/price/{id}', 'PriceController@deletePrice');
 // LOCATOR
 $app->get('api/locator', 'LocatorController@index');
 $app->get('api/locator/{id}', 'LocatorController@getLocator');
+$app->get('api/locator/{id}/reservations/', 'LocatorController@getLocatorWithReservations');
 $app->post('api/locator', 'LocatorController@saveLocator');
 $app->put('api/locator/{id}', 'LocatorController@updateLocator');
 $app->delete('api/locator/{id}', 'LocatorController@deleteLocator');
