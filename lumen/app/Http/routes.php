@@ -28,6 +28,7 @@ $app->get('api/room/{id}', 'RoomController@getRoom');
 $app->post('api/room', 'RoomController@saveRoom');
 $app->put('api/room/{id}', 'RoomController@updateRoom');
 $app->delete('api/room/{id}', 'RoomController@deleteRoom');
+$app->get('api/room_free/{since}/{till}', 'RoomController@getFreeRooms');
 
 // TIMEOFF
 $app->get('api/timeoff', 'TimeoffController@index');

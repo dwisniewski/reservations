@@ -15,7 +15,7 @@ class Reservation extends Model {
 
 	//todo: verify belongs/has
 	public function rooms() {
-		return $this->hasMany('App\Room', 'reservations_rooms');
+		return $this->belongsToMany('App\Room', 'reservations_rooms');
 	}
 }
 

@@ -11,7 +11,7 @@ class Room extends Model {
 	public $timestamps  = false;
 
 	public function reservations() {
-		return $this->belongsToMany('App\Reservation');
+		return $this->belongsToMany('App\Reservation', 'reservations_rooms');
 	}
 
 	public function timeoffs() {
