@@ -59,3 +59,4 @@ $app->get('api/locator/{id}/reservations/', 'LocatorController@getLocatorWithRes
 $app->post('api/locator', 'LocatorController@saveLocator');
 $app->put('api/locator/{id}', 'LocatorController@updateLocator');
 $app->delete('api/locator/{id}', 'LocatorController@deleteLocator');
+$app->get('api/locator_by_token/{token}', 'LocatorController@getLocatorByPattern');

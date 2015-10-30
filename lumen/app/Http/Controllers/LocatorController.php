@@ -22,6 +22,16 @@ class LocatorController extends Controller{
 			return response('Lokator nie został odnaleziony.', 404)->header('Content-Type', 'text/html; charset=utf-8');
 	}
 
+	public function getLocatorByPattern($token) {
+		$locators = Locator::where('name', 'like', $token.'%')->
+							 orWhere('surname', 'like', $token.'%')->
+							 orWhere('email', 'like', '%'.$token.'%')->
+							 orWhere('phone', 'like', $token.'%')->get();
+		if(count($locators) > 100) 
+			return response('Zbyt wiele wyników', 500)->header('Content-Type', 'text/html; charset=utf-8');
+		else
+			return response()->json($locators);
+	}
 
 	public function getLocatorWithReservations(Request $request, $id) {
 		$locator = null;
