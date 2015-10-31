@@ -25,10 +25,18 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/reservations', {
+        templateUrl: 'views/reservations.html',
+        controller: 'ReservationsCtrl',
+        controllerAs: 'reservations'
+      }).when('/rooms', {
+        templateUrl: 'views/rooms.html',
+        controller: 'RoomsCtrl',
+        controllerAs: 'reservations'
+      }).when('/locators', {
+        templateUrl: 'views/locators.html',
+        controller: 'LocatorsCtrl',
+        controllerAs: 'locators'
       })
       .otherwise({
         redirectTo: '/'
