@@ -1,3 +1,5 @@
+'use strict';
+
 var reservationServices = angular.module('frontendServices', ['ngResource']);
 
 reservationServices.factory('Reservation', ['$resource', function($resource) {

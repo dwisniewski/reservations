@@ -17,7 +17,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'frontendServices'
+    'frontendServices',
+    'smart-table'
   ])
   .config(function ($routeProvider) {
     $routeProvider

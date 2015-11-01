@@ -1,14 +1,19 @@
-<div class="jumbotron reservations">
+<div class="reservations">
   <h2>Rezerwacje!</h2>
 
-  <table>
+  <!--<table st-table="rowCollection" class="table table-striped">-->
+  
+    <div class="table-container">
+  <table st-table="rowCollection" st-pagination-scroll  st-pipe="callServer" class="table table-striped">
+
     <thead>
       <tr>
-        <td>Mieszkaniec</td>
-        <td>Data od</td>
-        <td>Data do</td>
-        <td>Liczba osób</td>
-        <td>Data rezerwacji</td>
+        <th st-sort="name">Mieszkaniec</th>
+        <th>Data od</th>
+        <th>Data do</th>
+        <th>Liczba osób</th>
+        <th>Data rezerwacji</th>
+        <th>Modyfikuj</th>
       </tr>
     </thead>
     <tbody>
@@ -18,7 +23,9 @@
         <td>{{reservation.till}}</td>
         <td>{{reservation.people_count}}</td>
         <td>{{reservation.reservation_time}}</td>
+        <td><button type="button" class="btn btn-info btn-xs btn-constsize-200">Modyfikuj</button></td>
       </tr>
     </tbody>
   </table>
+  </div>
 </div>

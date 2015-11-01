@@ -70,16 +70,6 @@ body {
   }
 }
 
-.reservations {
-  table, td, tr {
-    border: 1px solid black;
-  }
-  thead {
-    td {
-      width: 200px;
-    }
-  }
-}
 
 /* Supporting marketing content */
 .marketing {
@@ -91,7 +81,7 @@ body {
 }
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .container {
     max-width: 730px;
   }
@@ -110,5 +100,70 @@ body {
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+  }
+}
+
+
+
+
+/*                        */
+.reservations {
+  table {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: 500px; /* this can vary */
+  }
+
+  table * {
+      box-sizing: inherit;
+      -moz-box-sizing: inherit;
+  }
+
+  thead {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  tbody {
+      overflow-y: scroll;
+      display: inline-block;
+      td {
+        font-size: 14px;
+      }
+  }
+
+  thead > tr, tbody > tr, tfoot > tr {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+  }
+
+
+  thead > tr { 
+    padding-right: 15px;
+  }
+  thead, tfoot {
+      flex-shrink: 0;
+  }
+
+
+  th, tbody td {
+      width: 20%; 
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+  }
+
+  tfoot {
+      display: inline-block;
+  }
+
+  tfoot td {
+      width: 100%;
+      display: inline-block;
   }
 }
