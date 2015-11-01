@@ -1,3 +1,45 @@
-<div class="jumbotron">
-  <h2>Lokatorzy!</h2>
+<div class="jumbotron locators">
+  <h2>Mieszkańcy
+  <button class="btn btn-success" type="button">Stwórz nowego</button> </h2>
+
+
+
+	  <div class="table-container">
+	    <form>
+		<input type="search" ng-model="search.input" placeholder="lub wyszukaj (po imieniu, nazwisku, telefonie, e-mailu)" ng-keyup="search.keyUp()">
+	  </form>
+
+	  <br/> 
+      <table st-table="rowCollection" st-pagination-scroll  st-pipe="callServer" class="table table-striped">
+
+        <thead>
+          <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Telefon</th>
+            <th>E-mail</th>
+            <th>Rezerwacje</th>
+            <th>Modyfikuj</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="locator in all_locators">
+            <td st-sort="name">{{locator.name}}</td>
+            <td st-sort="surname">{{locator.surname}}</td>
+            <td st-sort="phone">{{locator.phone}}</td>
+            <td st-sort="email">{{locator.email}}</td>
+            <td>
+               <button class="btn btn-primary btn-xs" type="button">Rezerwacje</button>
+            </td>
+            <td>
+              <div class = "btn-group">
+                <button class="btn btn-success btn-xs" type="button">Edytuj</button>
+                <button class="btn btn-danger btn-xs" type="button">Usuń</button>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
 </div>

@@ -2,16 +2,23 @@
 
 /**
  * @ngdoc function
- * @name frontendApp.controller:LocatorsCtrl
+ * @name frontendApp.controller:ReservationsCtrl
  * @description
- * # LocatorsCtrl
+ * # ReservationsCtrl
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('LocatorsCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('LocatorsCtrl', ['$scope', 'Locator', 'LocatorByToken', function ($scope, Locator, LocatorByToken) {
+    $scope.all_locators = Locator.query();
+
+    $scope.search = {}
+    $scope.search.keyUp = function() {
+    	if($scope.search.input && $scope.search.input.length > 0) {
+	    	LocatorByToken.query({'token': $scope.search.input}, function(data) {
+	    		$scope.all_locators = data;
+	    	});
+		} else {
+			$scope.all_locators = Locator.query();
+		}
+    }
+  }]);

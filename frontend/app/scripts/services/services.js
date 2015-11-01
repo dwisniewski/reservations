@@ -7,3 +7,17 @@ reservationServices.factory('Reservation', ['$resource', function($resource) {
 		query: {method: 'GET', params: {'with_locators': true}, isArray:true}
 	});
 }]);
+
+
+reservationServices.factory('Locator', ['$resource', function($resource) {
+	return $resource('http://localhost:8000/api/locator/:id', {}, {
+		query: {method: 'GET', params: null, isArray:true}
+	});
+}]);
+
+
+reservationServices.factory('LocatorByToken', ['$resource', function($resource) {
+	return $resource('http://localhost:8000/api/locator_by_token/:token', {}, {
+		query: {method: 'GET', params: null, isArray:true}
+	});
+}]);
