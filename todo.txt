@@ -23,3 +23,7 @@
 		czy pokój istnieje
 		czy lokator istnieje
 		czy pokój jest wolny
+
+
+
+#verify GET/REST API paths to have consistency

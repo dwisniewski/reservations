@@ -13,10 +13,10 @@
     </thead>
     <tbody>
       <tr ng-repeat="reservation in future_reservations">
-        <td>{{reservation.locator}}</td>
+        <td>{{reservation.locator.name}} {{reservation.locator.surname}}</td>
         <td>{{reservation.since}}</td>
         <td>{{reservation.till}}</td>
-        <td>{{reservation.head_count}}</td>
+        <td>{{reservation.people_count}}</td>
         <td>{{reservation.reservation_time}}</td>
       </tr>
     </tbody>
