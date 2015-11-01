@@ -55,6 +55,10 @@ $app->singleton(
 |
 */
 
+$app->middleware([
+	'App\Http\Middleware\AfterMiddleware'
+]);
+
 // $app->middleware([
 //     // Illuminate\Cookie\Middleware\EncryptCookies::class,
 //     // Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
