@@ -9,8 +9,13 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller{
 	
-	public function index() {
-		$reservations = Reservation::all();
+	public function index(Request $request) {
+		$reservations = null;
+		
+		if($request->input('with_locators')) 
+			$reservations = Reservation::with('locator')->get();
+		else 
+			$reservations = Reservation::all();
 
 		return response()->json($reservations);
 	}

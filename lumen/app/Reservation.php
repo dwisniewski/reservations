@@ -9,7 +9,7 @@ class Reservation extends Model {
 	public $timestamps  = false;
 
 	public function locator() {
-		return $this->belongsTo('App\Locator');
+		return $this->belongsTo('App\Locator', 'locator_id', 'id');
 	}
 
 
