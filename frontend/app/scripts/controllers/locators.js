@@ -32,7 +32,7 @@ angular.module('frontendApp')
 
     $scope.deleteLocator = function(userID) {
     	console.log('deleting' + userID);
-    	Locator.remove(userID);
+    	Locator.delete(userID);
     };
   }])
 
