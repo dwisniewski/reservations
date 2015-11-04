@@ -32,7 +32,10 @@ angular.module('frontendApp')
 
     $scope.deleteLocator = function(userID) {
     	console.log('deleting' + userID);
-    	Locator.delete(userID);
+    	Locator.remove({id: userID}, function(success) {
+			$("table").find("[data-id='" + userID + "']").fadeOut();
+    	});
+
     };
   }])
 

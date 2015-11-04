@@ -22,7 +22,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="locator in all_locators">
+      <tr ng-repeat="locator in all_locators" data-id="{{locator.id}}">
         <td st-sort="name">{{locator.name}}</td>
         <td st-sort="surname">{{locator.surname}}</td>
         <td st-sort="phone">{{locator.phone}}</td>
@@ -34,7 +34,6 @@
           <div class = "btn-group">
           	<a ng-click="editLocator({{locator.id}})" class="btn btn-success btn-xs" type="button" role="button">Edytuj</a>
           	<a ng-click="deleteLocator({{locator.id}})" class="btn btn-danger btn-xs" type="button" role="button">Usuń</a>
-
           </div>
         </td>
       </tr>
