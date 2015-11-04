@@ -154,7 +154,8 @@ module.exports = function (grunt) {
         files: [{
           dot: true,
           src: [
-            '<%= yeoman.dist %>/../../lumen/public/{,*/}*'
+            '<%= yeoman.dist %>/../../lumen/public/{,*/}*',
+            '!<%= yeoman.dist %>/../../lumen/public/index.php' 
           ]
         }],
         options: { force: true }

@@ -10,9 +10,7 @@ reservationServices.factory('Reservation', ['$resource', function($resource) {
 
 
 reservationServices.factory('Locator', ['$resource', function($resource) {
-	return $resource('http://localhost:8000/api/locator/:id', {}, {
-		'update': { method:'PUT' }
-	});
+	return $resource('http://localhost:8000/api/locator/:id');
 }]);
 
 
