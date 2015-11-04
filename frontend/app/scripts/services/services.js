@@ -11,13 +11,11 @@ reservationServices.factory('Reservation', ['$resource', function($resource) {
 
 reservationServices.factory('Locator', ['$resource', function($resource) {
 	return $resource('http://localhost:8000/api/locator/:id', {}, {
-		query: {method: 'GET', params: null, isArray:true}
+		'update': { method:'PUT' }
 	});
 }]);
 
 
 reservationServices.factory('LocatorByToken', ['$resource', function($resource) {
-	return $resource('http://localhost:8000/api/locator_by_token/:token', {}, {
-		query: {method: 'GET', params: null, isArray:true}
-	});
+	return $resource('http://localhost:8000/api/locator_by_token/:token');
 }]);

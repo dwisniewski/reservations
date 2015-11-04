@@ -19,7 +19,12 @@ angular
     'ngTouch',
     'frontendServices',
     'smart-table'
-  ])
+  ]).config(['$sceDelegateProvider', function($sceDelegateProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist([
+      'self', 'http://localhost:8000/api/**'
+    ]);
+
+  }])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -36,9 +41,17 @@ angular
         controller: 'RoomsCtrl',
         controllerAs: 'reservations'
       }).when('/locators', {
-        templateUrl: 'views/locators.html',
+        templateUrl: 'views/locators/locators.html',
         controller: 'LocatorsCtrl',
         controllerAs: 'locators'
+      }).when('/locator-create', {
+        templateUrl: 'views/locators/locators.create.html',
+        controller: 'LocatorCreationCtrl',
+        controllerAs: 'locatorCreate'
+      }).when('/locator-edit/:id', {
+        templateUrl: 'views/locators/locators.update.html',
+        controller: 'LocatorEditionCtrl',
+        controllerAs: 'locatorUpdate'
       })
       .otherwise({
         redirectTo: '/'

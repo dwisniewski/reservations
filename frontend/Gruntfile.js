@@ -153,6 +153,18 @@ module.exports = function (grunt) {
       server: '.tmp'
     },
 
+    clean_backend: {
+      dist: {
+        files: [{
+          dot: true,
+          src: [
+            '<%= yeoman.dist %>/../../lumen/public{,*/}*'
+          ]
+        }]
+      },
+      server: '.tmp'
+    },
+
     // Add vendor prefixed styles
     autoprefixer: {
       options: {
