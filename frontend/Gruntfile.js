@@ -150,17 +150,15 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
-    },
-
-    clean_backend: {
-      dist: {
+      lumen: {
         files: [{
           dot: true,
           src: [
-            '<%= yeoman.dist %>/../../lumen/public{,*/}*'
+            '<%= yeoman.dist %>/../../lumen/public/{,*/}*'
           ]
-        }]
+        }],
+        options: { force: true }
+
       },
       server: '.tmp'
     },
@@ -426,6 +424,13 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      lumen: {
+        expand: true,
+        cwd: '<%= yeoman.dist %>',
+        src: './{,*/}*',
+        dest: '<%= yeoman.dist %>/../../lumen/public/',
+        options: { force: true }
       }
     },
 
@@ -498,7 +503,9 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'clean:lumen',
+    'copy:lumen'
   ]);
 
   grunt.registerTask('default', [
