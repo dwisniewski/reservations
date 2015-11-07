@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('LocatorsCtrl', ['$scope', '$location', 'Locator', 'LocatorByToken', function ($scope, $location, Locator, LocatorByToken) {
+  .controller('LocatorsCtrl', ['$scope', '$location', 'Locator', 'LocatorByToken', 'modalService',  function ($scope, $location, Locator, LocatorByToken, modalService) {
     $scope.all_locators = Locator.query();
     $scope.search = {};
     
@@ -31,16 +31,29 @@ angular.module('frontendApp')
     };
 
     $scope.deleteLocator = function(userID) {
-    	console.log('deleting' + userID);
-    	Locator.remove({id: userID}, function(success) {
-			$("table").find("[data-id='" + userID + "']").fadeOut();
-    	});
+    	var modalOptions = {
+            closeButtonText: 'Nie usuwaj',
+            actionButtonText: 'Usuń lokatora',
+            headerText: 'Czy usunąć lokatora?',
+            bodyText: 'Czy na pewno chcesz usunąć lokatora?'
+        };
+
+        modalService.showModal({}, modalOptions).then(function (result) {
+        	console.log('deleting' + userID);
+	    	Locator.remove({id: userID}, function(success) {
+				$("table").find("[data-id='" + userID + "']").fadeOut();
+	    	});
+        }, null);
+
+
 
     };
   }])
 
-  .controller('LocatorCreationCtrl', ['$scope', '$location', 'Locator', function ($scope, $location, Locator) {
+  .controller('LocatorCreationCtrl', ['$scope', '$location', 'Locator',  function ($scope, $location, Locator) {
+  	$scope.locator = new Locator();
   	$scope.saveNew = function() {
+  		console.log($scope.locator);
   		Locator.save($scope.locator);
   		$location.path('/locators/');
   	};

@@ -18,7 +18,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'frontendServices',
-    'smart-table'
+    'smart-table',
+    'ui.bootstrap'
   ]).config(['$sceDelegateProvider', function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([
       'self', 'http://localhost:8000/api/**'

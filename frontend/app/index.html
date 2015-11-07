@@ -57,6 +57,23 @@
       </div>
     </div>
 
+    <!-- MODAL WINDOW -->
+    <script type="text/ng-template" id="modal.html">
+      <div class="modal-header">
+        <h3>{{modalOptions.headerText}}</h3>
+      </div>
+      <div class="modal-body">
+        <p>{{modalOptions.bodyText}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" 
+                data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+        <button class="btn btn-primary" 
+                data-ng-click="modalOptions.ok();">{{modalOptions.actionButtonText}}</button>
+      </div>
+    </script>
+
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
@@ -80,6 +97,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
