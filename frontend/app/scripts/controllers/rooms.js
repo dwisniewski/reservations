@@ -8,10 +8,9 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('RoomsCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('RoomsCtrl', ['$scope', '$location', 'Room', function ($scope, $location, Room) {
+
+  	$scope.all_rooms = Room.query();
+  	
+
+  }]);

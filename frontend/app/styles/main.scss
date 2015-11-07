@@ -105,6 +105,14 @@ body {
 
 
 
+.room-available-at-time {
+  background-color: green;
+}
+
+.room-unavailable-at-time {
+  background-color: red;
+}
+
 
 /*                        */
 .reservations, .locators {

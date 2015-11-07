@@ -1,3 +1,30 @@
 <div class="jumbotron">
-  <h2>Pokoje!</h2>
+  <h2>Pokoje dostępne dla lokatorów</h2>
+
+  <table>
+  	<thead>
+  		<tr>
+  			<td>Numer pokoju (liczba miejsc)</td>
+  			<td>01 sty</td>
+  			<td>02 sty</td>
+  			<td>03 sty</td>
+  			<td>04 sty</td>
+  			<td>05 sty</td>
+  			<td>06 sty</td>
+  			<td>07 sty</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+  		<tr ng-repeat="room in all_rooms" data-id="{{room.number}}">
+  			<td>{{room.number}} ({{room.capacity}})</td>
+  			<td class="room-available-at-time"></td>
+  			<td class="room-available-at-time"></td>
+  			<td class="room-available-at-time"></td>
+  			<td class="room-available-at-time"></td>
+  			<td class="room-available-at-time"></td>
+  			<td class="room-available-at-time"></td>
+  			<td class="room-available-at-time"></td>
+  		</tr>
+  	</tbody>
+  </table>
 </div>
