@@ -16,6 +16,13 @@ reservationServices.factory('Locator', ['$resource', function($resource) {
 }]);
 
 
+reservationServices.factory('Room', ['$resource', function($resource) {
+	return $resource('http://localhost:8000/api/room/:number',{}, {
+		update: {method: 'PUT'}
+	});
+}]);
+
+
 reservationServices.factory('LocatorByToken', ['$resource', function($resource) {
 	return $resource('http://localhost:8000/api/locator_by_token/:token');
 }]);

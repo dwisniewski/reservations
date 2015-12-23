@@ -3,6 +3,36 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+
+.fc { 
+  table {
+    font-size: 10px;
+  }
+}
+
+.fc-toolbar {
+  button {
+    font-size: 12px !important;
+  }
+  margin-bottom: 0px;
+}
+
+
+#rooms-wrapper {
+  #calendar-box {
+    float: left;
+    width: 48%;
+  }
+
+  #rooms-details {
+    float:right;
+    width:48%;
+  }
+  .clearme {
+    clear: both;
+  }
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -104,13 +134,28 @@ body {
 }
 
 
+.rooms {
 
-.room-available-at-time {
-  background-color: green;
-}
+  .room-available-at-time {
+    background-color: #BBF272;
+  }
 
-.room-unavailable-at-time {
-  background-color: red;
+  .room-unavailable-at-time {
+    background-color: red;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  thead {
+    font-weight: bolder;
+  }
+
+  td {
+    border: 1px solid #c2c2c2;
+    padding: 2px;
+  }
 }
 
 

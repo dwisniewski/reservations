@@ -19,7 +19,8 @@ angular
     'ngTouch',
     'frontendServices',
     'smart-table',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.calendar'
   ]).config(['$sceDelegateProvider', function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([
       'self', 'http://localhost:8000/api/**'

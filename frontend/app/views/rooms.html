@@ -1,30 +1,33 @@
-<div class="jumbotron">
-  <h2>Pokoje dostępne dla lokatorów</h2>
+<div class="jumbotron rooms">
+  <h2>
+  	Pokoje dostępne dla lokatorów
+  </h2>
+  
+  <div class="panel panel-primary">
+  	<div class="panel-body">
+  	Kliknij na wybrany przez siebie dzień w kalendarzu, aby zobaczyć, które pokoje są danego dnia zajęte (oraz w jakich godzinach). Kliknięcie na wiersz w tabeli z zaznaczonym zajetym terminem spowoduje przejście do widoku rezerwacji, której ta zajętość dotyczy
+  	</div>
+  </div>
 
-  <table>
-  	<thead>
-  		<tr>
-  			<td>Numer pokoju (liczba miejsc)</td>
-  			<td>01 sty</td>
-  			<td>02 sty</td>
-  			<td>03 sty</td>
-  			<td>04 sty</td>
-  			<td>05 sty</td>
-  			<td>06 sty</td>
-  			<td>07 sty</td>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<tr ng-repeat="room in all_rooms" data-id="{{room.number}}">
-  			<td>{{room.number}} ({{room.capacity}})</td>
-  			<td class="room-available-at-time"></td>
-  			<td class="room-available-at-time"></td>
-  			<td class="room-available-at-time"></td>
-  			<td class="room-available-at-time"></td>
-  			<td class="room-available-at-time"></td>
-  			<td class="room-available-at-time"></td>
-  			<td class="room-available-at-time"></td>
-  		</tr>
-  	</tbody>
-  </table>
+
+  <div id="rooms-wrapper">
+	 <div ui-calendar="uiConfig.calendar" ng-model="eventSources" id="calendar-box"></div>
+	 <div id="rooms-details">
+		  <table>
+		  	<thead>
+		  		<tr>
+		  			<td>Numer pokoju (liczba miejsc)</td>
+		  			<td>Zajętość</td>
+		  		</tr>
+		  	</thead>
+		  	<tbody>
+		  		<tr ng-repeat="room in all_rooms" data-id="{{room.number}}">
+		  			<td>Pokój nr:{{room.number}} - miejsc:({{room.capacity}})</td>
+		  			<td class="room-available-at-time">wolny</td>
+		  		</tr>
+		  	</tbody>
+		  </table>
+	  </div>
+	  <div class="clearme"></div>
+  </div>
 </div>
