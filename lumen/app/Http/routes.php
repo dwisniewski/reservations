@@ -25,11 +25,11 @@ $app->delete('api/user/{id}', 'UserController@deleteUser');
 // ROOM
 $app->get('api/room', 'RoomController@index');
 $app->get('api/room/{id}', 'RoomController@getRoom');
+$app->get('api/room_free/{since}/{till}', 'RoomController@getFreeRooms');
+$app->get('api/room_occupied/{since}/{till}', 'RoomController@getOccupiedRooms');
 $app->post('api/room', 'RoomController@saveRoom');
 $app->put('api/room/{id}', 'RoomController@updateRoom');
 $app->delete('api/room/{id}', 'RoomController@deleteRoom');
-$app->get('api/room_free/{since}/{till}', 'RoomController@getFreeRooms');
-$app->get('api/room_occupied/{since}/{till}', 'RoomController@getOccupiedRooms');
 
 // TIMEOFF
 $app->get('api/timeoff', 'TimeoffController@index');
@@ -56,7 +56,7 @@ $app->delete('api/price/{id}', 'PriceController@deletePrice');
 $app->get('api/locator', 'LocatorController@index');
 $app->get('api/locator/{id}', 'LocatorController@getLocator');
 $app->get('api/locator/{id}/reservations/', 'LocatorController@getLocatorWithReservations');
+$app->get('api/locator_by_token/{token}', 'LocatorController@getLocatorByPattern');
 $app->post('api/locator', 'LocatorController@saveLocator');
 $app->put('api/locator/{id}', 'LocatorController@updateLocator');
 $app->delete('api/locator/{id}', 'LocatorController@deleteLocator');
-$app->get('api/locator_by_token/{token}', 'LocatorController@getLocatorByPattern');

@@ -20,7 +20,7 @@ class ReservationController extends Controller{
 		return response()->json($reservations);
 	}
 
-	public function getReservations(Request $request, $number) {
+	public function getReservation(Request $request, $number) {
 		$reservation = Reservation::find($number);
 
 		if($reservation) {
@@ -34,20 +34,18 @@ class ReservationController extends Controller{
 
 	public function saveReservation(Request $request) {
 		$reservation = new Reservation();
-		
 		if(!$request->input('locator_id') || !Locator::find($request->input('locator_id')))
 			return response('Lokator nie został sprecyzowany', 500)->header('Content-Type', 'text/html; charset=utf-8');
 
 		if(!$request->input('rooms'))
 			return response('Pokoje nie zostały sprecyzowane', 500)->header('Content-Type', 'text/html; charset=utf-8');
-
-		foreach(explode(',', $request->input('rooms')) as $room) {
+		
+		foreach($request->input('rooms') as $room) {
 			if(!Room::find($room)) 
-				return response('Pokój o numerze' .$room. 'nie jest zdefiniowany w bazie danych.', 500)->header('Content-Type', 'text/html; charset=utf-8');
-
+				return response('Pokój o numerze ' .$room. ' nie jest zdefiniowany w bazie danych.', 500)->header('Content-Type', 'text/html; charset=utf-8');
 		}
 
-
+		
 		$reservation->locator_id = $request->input('locator_id');
 		$reservation->reservation_time = date('Y-m-d H:i:s', time());
 		$reservation->since = $request->input('since');
@@ -56,12 +54,16 @@ class ReservationController extends Controller{
 		$reservation->dinners_count = $request->input('dinners_count');
 		$reservation->people_count = $request->input('people_count');
 		
-		foreach(explode(',', $request->input('rooms')) as $room) {
-			$reservation->rooms()->attach($room);
-		}
-
 		$reservation->save();
 
+
+		$reservation->rooms()->sync($request->input('rooms'));
+		/*
+		foreach($request->input('rooms') as $room) {
+			$reservation->rooms()->attach($room);
+		}*/
+		
+		$reservation->save();
 		return response()->json($reservation);
 	}
 
@@ -89,14 +91,19 @@ class ReservationController extends Controller{
 			$reservation->since = $request->input('since');
 		if($request->input('till'))
 			$reservation->till = $request->input('till');
-		if($request->input('id_paid'))
+		if($request->input('is_paid'))
 			$reservation->is_paid = $request->input('is_paid');
 		if($request->input('dinners_count'))
 			$reservation->dinners_count = $request->input('dinners_count');
 		if($request->input('people_count'))
 			$reservation->people_count = $request->input('people_count');
 
+		if($request->input('rooms')) {
+			$reservation->rooms()->sync($request->input('rooms'));
+		}
+
 		$reservation->save();
+
 		return response()->json($reservation);
 	}
 }
