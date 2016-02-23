@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Locator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
 
 class LocatorController extends Controller{
 	
@@ -23,10 +24,17 @@ class LocatorController extends Controller{
 	}
 
 	public function getLocatorByPattern($token) {
+		$token = $token == 'undefined' ? null : rawurldecode($token);
 		$locators = Locator::where('name', 'like', $token.'%')->
 							 orWhere('surname', 'like', $token.'%')->
 							 orWhere('email', 'like', '%'.$token.'%')->
 							 orWhere('phone', 'like', $token.'%')->get();
+
+		if(count($locators) == 0 and preg_match('/\s/',$token)) {
+			$parts = preg_split('/\s+/', $token);
+			// %% looks really bad, but in PHP it's a proper way to excape % (without it sprintf thinks we want another variable to be substituted).
+			$locators = DB::select( DB::raw(sprintf("SELECT * FROM locators WHERE (name like '%s%%' and surname like '%s%%') OR (name like '%s%%' and surname like '%s%%')", $parts[0], $parts[1], $parts[1], $parts[0])));
+		}
 		if(count($locators) > 100) 
 			return response('Zbyt wiele wyników', 500)->header('Content-Type', 'text/html; charset=utf-8');
 		else
