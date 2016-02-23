@@ -25,17 +25,21 @@ $app->delete('api/user/{id}', 'UserController@deleteUser');
 // ROOM
 $app->get('api/room', 'RoomController@index');
 $app->get('api/room/{id}', 'RoomController@getRoom');
-$app->get('api/room_free/{since}/{till}', 'RoomController@getFreeRooms');
-$app->get('api/room_occupied/{since}/{till}', 'RoomController@getOccupiedRooms');
 $app->post('api/room', 'RoomController@saveRoom');
 $app->put('api/room/{id}', 'RoomController@updateRoom');
 $app->delete('api/room/{id}', 'RoomController@deleteRoom');
+$app->get('api/rooms_free/{since}/{till}', 'RoomController@getFreeRooms');
+$app->get('api/rooms_occupied/{since}/{till}', 'RoomController@getOccupiedRooms');
+$app->get('api/rooms_excluded/{since}/{till}', 'RoomController@getExcludedRooms');
+$app->get('api/rooms_occupied_or_excluded/{since}/{till}', 'RoomController@getOccupiedOrExcludedRooms');
 
+
+/*
 $app->get('api/room_temp_free/{since}/{till}', 'RoomController@temporalRoomsFree');
 $app->get('api/room_temp_occupied/{since}/{till}', 'RoomController@temporalRoomsOccupied');
 $app->get('api/room_temp_excluded/{since}/{till}', 'RoomController@temportalRoomsExcluded');
 $app->get('api/room_temp_occupied_or_excluded/{since}/{till}', 'RoomController@temporalRoomsOccupiedOrExcluded');
-
+*/
 
 // TIMEOFF
 $app->get('api/timeoff', 'TimeoffController@index');

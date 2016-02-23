@@ -42,6 +42,11 @@ class RoomController extends Controller{
 		return $this->getRoomsWithGivenStatus($since, $till, 'excluded');
 	}
 
+	public function getOccupiedOrExcludedRooms($since, $till) {
+		return $this->getRoomsWithGivenStatus($since, $till, 'occupiedOrExcluded');
+	}
+
+
 	public function saveRoom(Request $request) {
 		$room = new Room();
 		
@@ -89,156 +94,8 @@ class RoomController extends Controller{
 	}
 
 
-
-	public function temporalRoomsFree($since, $till) {
-		$since = $since == 'undefined' ? null : rawurldecode($since);
-		$till = $till == 'undefined' ? null : rawurldecode($till);
-
-		if(!$this->verifyDate($since) or !$this->verifyDate($till)) {
-			return response('Podano błedny zakres czasowy!', 500)->header('Content-Type', 'text/html; charset=utf-8');
-		}
-
-		$query = sprintf('SELECT * FROM `rooms` WHERE `number` NOT IN (SELECT `number` FROM `rooms`
-					INNER JOIN `reservations_rooms` on `rooms`.`number` = `reservations_rooms`.`room_id`
-					INNER JOIN `reservations` on `reservations`.`id` = `reservations_rooms`.`reservation_id`');
-
-		if($since && $till) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
-		} else if($since) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
-			
-		} else if($till) {
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
-		}
-		$query = $query . 'UNION ALL SELECT `number` FROM `rooms` INNER JOIN `rooms_unavailability` on `rooms`.`number` = `rooms_unavailability`.`room_id` ';
-		if($since && $till) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
-		} else if($since) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
-			
-		} else if($till) {
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
-		}
-		$query = $query . ')';
-	
-
-		$rooms_free = DB::select( DB::raw($query));
-		return response()->json($rooms_free);
-	}
-
-	public function temporalRoomsOccupied($since, $till) {
-		$since = $since == 'undefined' ? null : rawurldecode($since);
-		$till = $till == 'undefined' ? null : rawurldecode($till);
-
-		if(!$this->verifyDate($since) or !$this->verifyDate($till)) {
-			return response('Podano błedny zakres czasowy!', 500)->header('Content-Type', 'text/html; charset=utf-8');
-		}
-
-		$query = sprintf('SELECT * FROM `rooms` WHERE `number` IN (SELECT `number` FROM `rooms`
-					INNER JOIN `reservations_rooms` on `rooms`.`number` = `reservations_rooms`.`room_id`
-					INNER JOIN `reservations` on `reservations`.`id` = `reservations_rooms`.`reservation_id`');
-
-		if($since && $till) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
-		} else if($since) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
-			
-		} else if($till) {
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
-		}
-		$query = $query . ')';
-
-		$rooms_free = DB::select( DB::raw($query));
-		return response()->json($rooms_free);
-	}
-
-	public function temportalRoomsExcluded($since, $till) {
-		$since = $since == 'undefined' ? null : rawurldecode($since);
-		$till = $till == 'undefined' ? null : rawurldecode($till);
-
-		if(!$this->verifyDate($since) or !$this->verifyDate($till)) {
-			return response('Podano błedny zakres czasowy!', 500)->header('Content-Type', 'text/html; charset=utf-8');
-		}
-
-		$query = sprintf('SELECT * FROM `rooms` WHERE `number` IN (SELECT `number` FROM `rooms` INNER JOIN `rooms_unavailability` on `rooms`.`number` = `rooms_unavailability`.`room_id` ');
-		if($since && $till) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
-		} else if($since) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
-			
-		} else if($till) {
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
-		}
-		$query = $query . ')';
-
-		$rooms_free = DB::select( DB::raw($query));
-		return response()->json($rooms_free);
-	}
-
-	public function temporalRoomsOccupiedOrExcluded($since, $till) {
-		$since = $since == 'undefined' ? null : rawurldecode($since);
-		$till = $till == 'undefined' ? null : rawurldecode($till);
-
-		if(!$this->verifyDate($since) or !$this->verifyDate($till)) {
-			return response('Podano błedny zakres czasowy!', 500)->header('Content-Type', 'text/html; charset=utf-8');
-		}
-
-		$query = sprintf('SELECT * FROM `rooms` WHERE `number` IN (SELECT `number` FROM `rooms`
-					INNER JOIN `reservations_rooms` on `rooms`.`number` = `reservations_rooms`.`room_id`
-					INNER JOIN `reservations` on `reservations`.`id` = `reservations_rooms`.`reservation_id`');
-
-		if($since && $till) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
-		} else if($since) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
-			
-		} else if($till) {
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
-		}
-		$query = $query . 'UNION ALL SELECT `number` FROM `rooms` INNER JOIN `rooms_unavailability` on `rooms`.`number` = `rooms_unavailability`.`room_id` ';
-		if($since && $till) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
-		} else if($since) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
-			
-		} else if($till) {
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
-		}
-		$query = $query . ')';
-	
-
-		$rooms_free = DB::select( DB::raw($query));
-		return response()->json($rooms_free);
-	}
-
-	/*
-		TODO: check Excluded rooms
-	*/
 	private function getRoomsWithGivenStatus($since, $till, $status) {
+		$available_statuses = ['free', 'occupied', 'excluded', 'occupiedOrExcluded'];
 		$since = $since == 'undefined' ? null : rawurldecode($since);
 		$till = $till == 'undefined' ? null : rawurldecode($till);
 		
@@ -246,24 +103,57 @@ class RoomController extends Controller{
 			return response('Podano błedny zakres czasowy!', 500)->header('Content-Type', 'text/html; charset=utf-8');
 		}
 
-		$differentiate_part = $status == 'free' ? 'NOT IN' : 'IN';
-		$query = sprintf('SELECT * FROM `rooms` WHERE `number` %s (SELECT `number` FROM `rooms`
-					INNER JOIN `reservations_rooms` on `rooms`.`number` = `reservations_rooms`.`room_id`
-					INNER JOIN `reservations` on `reservations`.`id` = `reservations_rooms`.`reservation_id`', 
-					$differentiate_part);
-
-		if($since && $till) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
-		} else if($since) {
-			$since_quoted = DB::connection()->getPdo()->quote($since);
-			$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
-			
-		} else if($till) {
-			$till_quoted = DB::connection()->getPdo()->quote($till);
-			$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
+		if(!in_array($status, $available_statuses)) {
+			return response('Podano błędny status pokoju!', 500)->header('Content-Type', 'text/html; charset=utf-8');
 		}
+
+		$query = 'SELECT * FROM `rooms` WHERE `number` ';
+		// NOT in only when selecting free rooms
+		$query = $query . ($status == 'free' ? 'NOT IN' : 'IN');
+		$query = $query . '(';
+
+		// for status occupied, occupiedOrExcluded or Free - Add occupation check
+		if($status != 'excluded') {
+			$query = $query . 'SELECT `number` FROM `rooms`
+					INNER JOIN `reservations_rooms` on `rooms`.`number` = `reservations_rooms`.`room_id`
+					INNER JOIN `reservations` on `reservations`.`id` = `reservations_rooms`.`reservation_id`';
+
+			if($since && $till) {
+				$since_quoted = DB::connection()->getPdo()->quote($since);
+				$till_quoted = DB::connection()->getPdo()->quote($till);
+				$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
+			} else if($since) {
+				$since_quoted = DB::connection()->getPdo()->quote($since);
+				$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
+				
+			} else if($till) {
+				$till_quoted = DB::connection()->getPdo()->quote($till);
+				$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
+			}
+		}
+
+		// If subquery should be combined by merging 2 checks
+		if($status == 'free' || $status == 'occupiedOrExcluded')
+			$query = $query . ' UNION ALL ';
+
+		// add excluded check for excluded, occupiedOrExcluded or Free
+		if($status != 'occupied') {
+			$query = $query . 'SELECT `number` FROM `rooms` INNER JOIN `rooms_unavailability` on `rooms`.`number` = `rooms_unavailability`.`room_id` ';
+
+			if($since && $till) {
+				$since_quoted = DB::connection()->getPdo()->quote($since);
+				$till_quoted = DB::connection()->getPdo()->quote($till);
+				$query = $query . sprintf(' WHERE `since` <= %s AND `till` >= %s', $till_quoted, $since_quoted);
+			} else if($since) {
+				$since_quoted = DB::connection()->getPdo()->quote($since);
+				$query = $query . sprintf(' WHERE `till` >= %s', $since_quoted);
+				
+			} else if($till) {
+				$till_quoted = DB::connection()->getPdo()->quote($till);
+				$query = $query . sprintf(' WHERE `since` <= %s', $till_quoted);	
+			}	
+		}
+
 		$query = $query . ');';
 
 		$rooms_free = DB::select( DB::raw($query));
