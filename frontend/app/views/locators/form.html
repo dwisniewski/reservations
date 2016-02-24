@@ -1,18 +1,18 @@
 <div class="form-group">
   <label for="name">Imię:</label>
-  <input type="text" class="form-control" id="name" ng-model="locator.name">
+  <input type="text" class="form-control" id="name" ng-model="locator.name" capitalize>
 </div>
 <div class="form-group">
   <label for="surname">Nazwisko:</label>
-  <input type="text" class="form-control" id="surname" ng-model="locator.surname">
+  <input type="text" class="form-control" id="surname" ng-model="locator.surname" capitalize>
 </div>
 <div class="form-group">
   <label for="email">Email (nieobowiązkowy):</label>
-  <input type="email" class="form-control" id="email" ng-model="locator.email">
+  <input type="email" class="form-control" id="email" ng-model="locator.email" removespaces>
 </div>
 <div class="form-group">
   <label for="phone">Telefon (nieobowiązkowy):</label>
-  <input type="text" class="form-control" id="phone" ng-model="locator.phone">
+  <input type="text" class="form-control" id="phone" ng-model="locator.phone" removespaces>
 </div>
 <div class="checkbox">
   <label><input type="checkbox">Po dodaniu przejdź do tworzenia rezerwacji z udziałem użytkownika</label>

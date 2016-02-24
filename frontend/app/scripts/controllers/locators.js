@@ -7,6 +7,8 @@
  * # ReservationsCtrl
  * Controller of the frontendApp
  */
+
+
 angular.module('frontendApp')
   .controller('LocatorsCtrl', ['$scope', '$location', 'Locator', 'LocatorByToken', 'modalService',  function ($scope, $location, Locator, LocatorByToken, modalService) {
     $scope.all_locators = Locator.query();
@@ -22,6 +24,13 @@ angular.module('frontendApp')
 		}
     };
 
+/*
+    $scope.locator.name.keyUp = function() {
+      if($scope.locator.name.input && $scope.locator.name.input.length > 0) {
+        $scope.locator.name.input = firstToUpperCase($scope.locator.name.input);
+      }
+    }
+*/
     $scope.createLocator = function() {
     	$location.path('/locator-create/');
     };
@@ -67,4 +76,39 @@ angular.module('frontendApp')
   		console.log($scope.locator);
   		$location.path('/locators/');
   	};
-  }]);
+  }]).directive('capitalize', function() {
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+        var capitalize = function(inputValue) {
+           if(inputValue == undefined) inputValue = '';
+           var capitalized = inputValue.substr(0, 1).toUpperCase() + inputValue.substr(1);
+
+           if(capitalized !== inputValue) {
+              modelCtrl.$setViewValue(capitalized);
+              modelCtrl.$render();
+            }         
+            return capitalized;
+         }
+         modelCtrl.$parsers.push(capitalize);
+         capitalize(scope[attrs.ngModel]);  // capitalize initial value
+     }
+   };
+}).directive('removespaces', function() {
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+        var removespaces = function(inputValue) {
+           if(inputValue == undefined) inputValue = '';
+           var removed_spaces = inputValue.replace(/\s/g, '');
+           if(removed_spaces !== inputValue) {
+              modelCtrl.$setViewValue(removed_spaces);
+              modelCtrl.$render();
+            }         
+            return removed_spaces;
+         }
+         modelCtrl.$parsers.push(removespaces);
+         removespaces(scope[attrs.ngModel]);  // remove_spaces of initial value
+     }
+   };
+});
