@@ -20,7 +20,8 @@ angular
     'frontendServices',
     'smart-table',
     'ui.bootstrap',
-    'ui.calendar'
+    'ui.calendar',
+    'ui.bootstrap.datetimepicker'
   ]).config(['$sceDelegateProvider', function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([
       'self', 'http://localhost:8000/api/**'

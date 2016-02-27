@@ -23,10 +23,14 @@ reservationServices.factory('Room', ['$resource', function($resource) {
 }]);
 
 
+
+
+
 reservationServices.factory('LocatorByToken', ['$resource', function($resource) {
 	return $resource('http://localhost:8000/api/locator_by_token/:token');
 }]);
 
+//Modal window used in various places
 reservationServices.service('modalService', ['$uibModal',
     function ($uibModal) {
 

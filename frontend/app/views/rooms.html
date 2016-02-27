@@ -11,13 +11,35 @@
 
 
   <div id="rooms-wrapper">
-	 <div ui-calendar="uiConfig.calendar" ng-model="eventSources" id="calendar-box"></div>
+	<!-- <div ui-calendar="uiConfig.calendar" ng-model="eventSources" id="calendar-box"></div> <-->
+	<div id="calendar-box">
+<form>
+<p>Od:
+<datetimepicker ng-model="date_since" 
+                date-format="dd-MMM-yyyy" 
+                date-options="dateOptions" 
+                date-disabled="isDisabledDate(date, mode)"
+                show-meridian="false">
+</datetimepicker>
+</p>
+
+<p>Do:
+<datetimepicker ng-model="date_till" 
+                date-format="dd-MMM-yyyy" 
+                date-options="dateOptions" 
+                date-disabled="isDisabledDate(date, mode)"
+                show-meridian="false">
+</datetimepicker>
+</p>
+</form>
+	</div>
 	 <div id="rooms-details">
+	 	  <h5> Pokoje dostępne od: <strong>{{date_since | date:'yyyy-MM-dd HH:mm:ss'}}</strong> do: <strong>{{date_till | date:'yyyy-MM-dd HH:mm:ss'}}</strong> <h5>
 		  <table>
 		  	<thead>
 		  		<tr>
 		  			<td>Numer pokoju (liczba miejsc)</td>
-		  			<td>Zajętość</td>
+		  			<td>Czy zajęty</td>
 		  		</tr>
 		  	</thead>
 		  	<tbody>
