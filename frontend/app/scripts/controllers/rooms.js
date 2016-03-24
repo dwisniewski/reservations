@@ -8,65 +8,44 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('RoomsCtrl', ['$http', '$filter', '$scope', '$location', 'Room', 'modalTimeService', function ($http, $filter, $scope, $location, Room, modalTimeService) {
+  .controller('RoomsCtrl', ['$http', '$filter', '$scope', '$location', 'Room', function ($http, $filter, $scope, $location, Room) {
 
-  	$scope.all_rooms = Room.query();
+    $scope.all_rooms = Room.query();
+
+    function update_roomlist() {
+      if($scope.date_since !== undefined && $scope.date_till !== undefined) {
+        //console.log('xxx');
+        $http({
+          method: 'get',
+          url: "/api/" + $scope.room_state + "/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/"
+        }).success(function(response) {
+          /*console.log("/api/rooms_free/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/");*/
+          console.log("/api/" + $scope.room_state + "/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/");
+          $scope.all_rooms = response;
+        });
+      }      
+    }
+
 
     $scope.$watch(function() {
       return $scope.date_since;
     }, function(newTime) {
-      if($scope.date_till !== undefined) {
-        console.log('xxx');
-        $http({
-          method: 'get',
-          url: "/api/rooms_free/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/"
-        }).success(function(response) {
-          console.log("/api/rooms_free/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/");
-          console.log('success');
-          console.log(response);
-          $scope.all_rooms = response;
-        });
-      }
+      update_roomlist();
     });
-    
-  //  $scope.$watch(function() {
-  //          return $scope.date_since;
-  //        }, function(newTime) {
-   //         if($scope.date_till != undefined) {
-              /*$http({
-                method: 'get',
-                url: '/api/rooms_free/{{$scope.date_since}}/{{$scope.date_till}}/',
-              }).success(function (response) {
-                console.log(response);
-                $scope.all_rooms = response;
-              }).error(function (err) {
-                console.log(err);
-              });*/
 
-              //$scope.all_rooms = 
-   //         }
-  //        });
+    $scope.$watch(function() {
+      return $scope.date_till;
+    }, function(newTime) {
+      update_roomlist();
+    });
 
+    $scope.$watch(function() {
+      return $scope.room_state;
+    }, function(room_state) {
+      update_roomlist();
+    });
 
- //   $scope.$watch(function() {
-   //         return $scope.date_till;
-     //     }, function(newTime) {
-            
-         //   if($scope.date_since !== undefined) {
-       //       if($scope.date_till != undefined) {
-                /*$http({
-                  method: 'get',
-                  url: '/api/rooms_free/{{$scope.date_since}}/{{$scope.date_till}}/',
-                }).success(function (response) {
-                  console.log(response);
-                  $scope.all_rooms = response;
-                }).error(function (err) {
-                  console.log(err);
-                });*/
-        //    } 
-        //  });
-  	/*$scope.eventSources = [];
-
+/*
     var modalOptions = {
           closeButtonText: 'Odrzuć wybór',
           actionButtonText: 'Użyj przedziału czasu',

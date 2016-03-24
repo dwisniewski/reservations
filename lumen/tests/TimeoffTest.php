@@ -3,7 +3,7 @@
 class TimeoffTest extends TestCase {
     public function setUp() {
         parent::setUp();
-        DB::statement('DELETE FROM rooms');
+        DB::statement('DELETE FROM rooms');                     // because Timeoff is strongly connected with rooms - assure we recreate rooms correctly
         DB::table('rooms_unavailability')->truncate();
     }
 

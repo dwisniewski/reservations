@@ -24,13 +24,6 @@ angular.module('frontendApp')
 		}
     };
 
-/*
-    $scope.locator.name.keyUp = function() {
-      if($scope.locator.name.input && $scope.locator.name.input.length > 0) {
-        $scope.locator.name.input = firstToUpperCase($scope.locator.name.input);
-      }
-    }
-*/
     $scope.createLocator = function() {
     	$location.path('/locator-create/');
     };

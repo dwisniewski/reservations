@@ -36,9 +36,17 @@ angular
         controllerAs: 'main'
       })
       .when('/reservations', {
-        templateUrl: 'views/reservations.html',
+        templateUrl: 'views/reservations/reservations.html',
         controller: 'ReservationsCtrl',
         controllerAs: 'reservations'
+      }).when('/reservation-create/', {
+        templateUrl: 'views/reservations/reservations.create.html',
+        controller: 'ReservationCreationCtrl',
+        controllerAs: 'reservationCreate'
+      }).when('/reservation-edit/:id', {
+        templateUrl: 'views/reservations/reservations.update.html',
+        controller: 'ReservationEditCtrl',
+        controllerAs: 'reservationUpdate'
       }).when('/rooms', {
         templateUrl: 'views/rooms.html',
         controller: 'RoomsCtrl',

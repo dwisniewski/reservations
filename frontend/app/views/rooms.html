@@ -31,6 +31,13 @@
                 show-meridian="false">
 </datetimepicker>
 </p>
+
+<select ng-model="room_state" ng-init="room_state='rooms_free'">
+  <option value="rooms_free" selected="selected">Wolne pokoje</option>
+  <option value="rooms_occupied">Zarezerwowane pokoje</option>
+  <option value="rooms_excluded">Pokoje wyłączone z użytku</option>
+  <option value="rooms_occupied_or_excluded">Pokoje zarezerwowane lub wyłączone z użytku</option>
+</select>
 </form>
 	</div>
 	 <div id="rooms-details">
