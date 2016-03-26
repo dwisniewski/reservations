@@ -2,11 +2,13 @@
 
 var reservationServices = angular.module('frontendServices', ['ngResource']);
 
+
 reservationServices.factory('Reservation', ['$resource', function($resource) {
 	return $resource('http://localhost:8000/api/reservation/', {}, {
 		query: {method: 'GET', params: {'with_locators': true}, isArray:true}
 	});
 }]);
+
 
 
 reservationServices.factory('Locator', ['$resource', function($resource) {
@@ -24,11 +26,10 @@ reservationServices.factory('Room', ['$resource', function($resource) {
 
 
 
-
-
 reservationServices.factory('LocatorByToken', ['$resource', function($resource) {
 	return $resource('http://localhost:8000/api/locator_by_token/:token');
 }]);
+
 
 //Modal window used in various places
 reservationServices.service('modalService', ['$uibModal',
@@ -79,5 +80,4 @@ reservationServices.service('modalService', ['$uibModal',
 
             return $uibModal.open(tempModalDefaults).result;
         };
-
 }]);

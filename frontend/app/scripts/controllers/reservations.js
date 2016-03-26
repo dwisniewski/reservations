@@ -51,6 +51,7 @@ angular.module('frontendApp')
     }];*/
   }]).controller('ReservationCreationCtrl', ['$scope', '$location', 'Reservation',  function ($scope, $location, Reservation) {
     $scope.reservation = new Reservation();
+    
     $scope.saveNew = function() {
       console.log($scope.reservation);
       Reservation.save($scope.reservation);
