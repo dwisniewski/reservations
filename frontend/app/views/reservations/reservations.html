@@ -1,0 +1,46 @@
+<div class="jumbotron locators">
+  <h2>Rezerwacje
+  	<!-- <a ng-href="#/create/locator/" class="btn btn-success" role="button">Stwórz nowego</a> -->
+  	<button class="btn btn-success" role="button" ng-click="createReservation();">Stwórz nową</button>
+  </h2>
+
+  <div class="table-container">
+    <form>
+	<input type="search" ng-model="search.input" placeholder="lub wyszukaj (po imieniu, nazwisku, telefonie, e-mailu)" ng-keyup="search.keyUp()">
+  </form>
+
+  <br/> 
+  <table id="reservations_table" st-table="rowCollection" st-pagination-scroll  st-pipe="callServer" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Od</th>
+        <th>Do</th>
+        <th>Szczegóły</th>
+        <th>Edycja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="reservation in future_reservations" data-id="{{reservation.id}}">
+        <td st-sort="name">{{reservation.locator.name}}</td>
+        <td st-sort="surname">{{reservation.locator.surname}}</td>
+        <td st-sort="since">{{reservation.since}}</td>
+        <td st-sort="till">{{reservation.till}}</td>
+        <!--<td st-sort="paid">{{is_paid == "1" ? 'Tak': 'Nie'}}</td>
+        <td st-sort="people_count">{{reservation.people_count}}</td>
+        <td st-sort="dinner_count">{{reservation.dinners_count}}</td>-->
+        <td><a ng-href="#/reservations/{{reservation.id}}" class="btn btn-primary btn-xs" role="button">Zobacz</a>
+            </td>
+        <td>
+          <div class = "btn-group">
+          	
+            <a ng-click="editReservation({{reservation.id}})" class="btn btn-success btn-xs" type="button" role="button">Edytuj</a>
+          	<a ng-click="deleteReservation({{reservation.id}})" class="btn btn-danger btn-xs" type="button" role="button">Usuń</a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
