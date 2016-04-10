@@ -1,11 +1,12 @@
 <div class="jumbotron rooms">
   <h2>
-  	Pokoje dostępne dla lokatorów
+  	Pokoje dostępne dla lokatorów 
+    <button class="btn btn-success" role="button" ng-click="editRooms();">Zarządzaj pokojami</button>
   </h2>
   
   <div class="panel panel-primary">
   	<div class="panel-body">
-  	Kliknij na wybrany przez siebie dzień w kalendarzu, aby zobaczyć, które pokoje są danego dnia zajęte (oraz w jakich godzinach). Kliknięcie na wiersz w tabeli z zaznaczonym zajetym terminem spowoduje przejście do widoku rezerwacji, której ta zajętość dotyczy
+    Wybierz zadany przez siebie przedział czasu, aby zobaczyć, które pokoje są w danym okresie zajęte/wolne/wyłączone z użytku. Dla pokoi zajętych, kliknięcie na numer pokoju przeniesie do widoku rezerwacji powiązanej z tym pokojem w zadanym czasie.
   	</div>
   </div>
 
@@ -14,6 +15,14 @@
 	<!-- <div ui-calendar="uiConfig.calendar" ng-model="eventSources" id="calendar-box"></div> <-->
 	<div id="calendar-box">
 <form>
+<div class="form-group">
+<select ng-model="room_state" ng-init="room_state='rooms_free'" class="form-control">
+  <option value="rooms_free" selected="selected">Wolne pokoje</option>
+  <option value="rooms_occupied">Zarezerwowane pokoje</option>
+  <option value="rooms_excluded">Pokoje wyłączone z użytku</option>
+  <option value="rooms_occupied_or_excluded">Pokoje zarezerwowane lub wyłączone z użytku</option>
+</select>
+</div>
 <p>Od:
 <datetimepicker ng-model="date_since" 
                 date-format="dd-MMM-yyyy" 
@@ -31,32 +40,11 @@
                 show-meridian="false">
 </datetimepicker>
 </p>
-
-<select ng-model="room_state" ng-init="room_state='rooms_free'">
-  <option value="rooms_free" selected="selected">Wolne pokoje</option>
-  <option value="rooms_occupied">Zarezerwowane pokoje</option>
-  <option value="rooms_excluded">Pokoje wyłączone z użytku</option>
-  <option value="rooms_occupied_or_excluded">Pokoje zarezerwowane lub wyłączone z użytku</option>
-</select>
 </form>
 	</div>
 	 <div id="rooms-details">
-	 	  <h5> Pokoje dostępne od: <strong>{{date_since | date:'yyyy-MM-dd HH:mm:ss'}}</strong> do: <strong>{{date_till | date:'yyyy-MM-dd HH:mm:ss'}}</strong> <h5>
-		  <table>
-		  	<thead>
-		  		<tr>
-		  			<td>Numer pokoju (liczba miejsc)</td>
-		  			<td>Czy zajęty</td>
-		  		</tr>
-		  	</thead>
-		  	<tbody>
-		  		<tr ng-repeat="room in all_rooms" data-id="{{room.number}}">
-		  			<td>Pokój nr:{{room.number}} - miejsc:({{room.capacity}})</td>
-		  			<td class="room-available-at-time">wolny</td>
-		  		</tr>
-		  	</tbody>
-		  </table>
-	  </div>
-	  <div class="clearme"></div>
+      <button type="button" class="btn btn-large btn-success" ng-repeat="room in all_rooms" data-id="{{room.number}}">Pokój nr: {{room.number}}<br/><small>miejsc: {{room.capacity}}</small></button>
+	 </div>
+    <div class="clearme"></div>
   </div>
 </div>

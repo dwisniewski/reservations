@@ -34,6 +34,13 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
   #rooms-details {
     float:right;
     width:48%;
+    button {
+      margin: 5px;
+      small {
+        font-weight: normal;
+        color: #eeffe8;
+      }
+    }
   }
   .clearme {
     clear: both;
