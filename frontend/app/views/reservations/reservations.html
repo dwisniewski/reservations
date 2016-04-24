@@ -1,4 +1,4 @@
-<div class="jumbotron locators">
+<div class="jumbotron reservations">
   <h2>Rezerwacje
   	<!-- <a ng-href="#/create/locator/" class="btn btn-success" role="button">Stwórz nowego</a> -->
   	<button class="btn btn-success" role="button" ng-click="createReservation();">Stwórz nową</button>
@@ -6,7 +6,9 @@
 
   <div class="table-container">
     <form>
+    <div class="form-group">
 	<input type="search" ng-model="search.input" placeholder="lub wyszukaj (po imieniu, nazwisku, telefonie, e-mailu)" ng-keyup="search.keyUp()">
+  </div>
   </form>
 
   <br/> 
@@ -30,7 +32,7 @@
         <!--<td st-sort="paid">{{is_paid == "1" ? 'Tak': 'Nie'}}</td>
         <td st-sort="people_count">{{reservation.people_count}}</td>
         <td st-sort="dinner_count">{{reservation.dinners_count}}</td>-->
-        <td><a ng-href="#/reservations/{{reservation.id}}" class="btn btn-primary btn-xs" role="button">Zobacz</a>
+        <td><a ng-click="editReservation({{reservation.id}})" class="btn btn-primary btn-xs" role="button">Zobacz</a>
             </td>
         <td>
           <div class = "btn-group">

@@ -1,41 +1,56 @@
+
 <div class="form-group">
   <label for="locator">Lokator:</label>
-  <input type="text" class="form-control" id="locator" ng-model="reservation.locator" capitalize>
+  <select class="form-control" id="locator" ng-model="reservation.locator_id" ng-options="locator.id as locator.name_surname for locator in locatorsIDName">
+
+   <!--<option ng:repeat="locator in locatorsIDName track by locator.id" value="{{locator.id}}">{{locator.name_surname}} </option> -->
+  </select>
+  <!-- need choose locator -->
 </div>
-<div class="form-group">
-  <label for="since">Rezerwacja od::</label>
-  <!--<input type="text" class="form-control" id="since" ng-model="reservation.since" capitalize>-->
+<p>Od: 
   <datetimepicker ng-model="reservation.since" 
-                date-format="dd-MMM-yyyy" 
+                date-format="yyyy-MM-dd" 
                 date-options="dateOptions" 
                 date-disabled="isDisabledDate(date, mode)"
                 show-meridian="false">
 </datetimepicker>
-</div>
-<div class="form-group">
-  <label for="till">Rezerwacja do:</label>
-  <!--<input type="text" class="form-control" id="till" ng-model="reservation.till" removespaces>-->
+</p>
+<p>Do: 
   <datetimepicker ng-model="reservation.till" 
-                date-format="dd-MMM-yyyy" 
+                date-format="yyyy-MM-dd" 
                 date-options="dateOptions" 
                 date-disabled="isDisabledDate(date, mode)"
                 show-meridian="false">
 </datetimepicker>
+</p>
+<div class="form-group hidden" id="rooms_view">
+  <label>Wybierz pokoje do przypisania:</label>
+  <br/>
+  <button type="button" class="btn btn-large btn-success" ng-repeat="room in all_rooms" data-id="{{room.number}}" ng-click="assignRoom({{room.number}})">Pokój nr: {{room.number}}<br/><small>miejsc: {{room.capacity}}</small></button>
+
+  <br/>
+  <label>Wybrane pokoje:</label>
+  <br/>
+  <button type="button" class="btn btn-large btn-success" ng-repeat="room in chosen_rooms" data-id="{{room.number}}" ng-click="unassignRoom({{room.number}})">Pokój nr: {{room.number}}<br/><small>miejsc: {{room.capacity}}</small></button>
+
+
 </div>
 <div class="form-group">
   <label for="is_paid">Czy opłacono?</label>
   <!--<input type="text" class="form-control" id="is_paid" ng-model="reservation.is_paid" removespaces>-->
-  <select class="form-control" id="is_paid" ng-model="reservation.is_paid" removespaces>
-    <option value="1">Tak</option>
-    <option value="0">Nie</option>
+  <select class="form-control" id="is_paid" ng-model="reservation.is_paid" ng-options="paidOption.id as paidOption.text for paidOption in paidOptions">
+    <!--<option value="1" ng-selected="reservation.is_paid == '1'">Tak</option>
+    <option value="0" ng-selected="reservation.is_paid == '0'">Nie</option>
+    -->
   </select>
 </div>
 <div class="form-group">
   <label for="people">Ile osób?</label>
-  <input type="number" class="form-control" id="people" ng-model="reservation.people_count" removespaces>
+  <input type="number" class="form-control" id="people" ng-model="reservation.people_count">
 </div>
 <div class="form-group">
   <label for="dinners">Ile obiadów?</label>
-  <input type="number" class="form-control" id="dinners" ng-model="reservation.dinners_count" removespaces>
+  <input type="number" class="form-control" id="dinners" ng-model="reservation.dinners_count">
 </div>
+
 <button type="submit" class="btn btn-success">Zapisz</button>

@@ -45,12 +45,24 @@ angular
         controllerAs: 'reservationCreate'
       }).when('/reservation-edit/:id', {
         templateUrl: 'views/reservations/reservations.update.html',
-        controller: 'ReservationEditCtrl',
+        controller: 'ReservationEditionCtrl',
         controllerAs: 'reservationUpdate'
+      }).when('/room-find', {
+        templateUrl: 'views/rooms_finder.html',
+        controller: 'RoomsFindCtrl',
+        controllerAs: 'roomFind'
       }).when('/rooms', {
-        templateUrl: 'views/rooms.html',
+        templateUrl: 'views/rooms/rooms.html',
         controller: 'RoomsCtrl',
-        controllerAs: 'reservations'
+        controllerAs: 'rooms'
+      }).when('/room-create/', {
+        templateUrl: 'views/rooms/rooms.create.html',
+        controller: 'RoomCreationCtrl',
+        controllerAs: 'roomCreate'
+      }).when('/room-edit/:id', {
+        templateUrl: 'views/rooms/rooms.update.html',
+        controller: 'RoomEditionCtrl',
+        controllerAs: 'roomUpdate'
       }).when('/locators', {
         templateUrl: 'views/locators/locators.html',
         controller: 'LocatorsCtrl',

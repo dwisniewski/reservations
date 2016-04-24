@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller{
-	
+
 	public function index(Request $request) {
 		$reservations = null;
 		
@@ -24,8 +24,10 @@ class ReservationController extends Controller{
 		$reservation = Reservation::find($number);
 
 		if($reservation) {
-			if($request->input('rooms'))
-				$reservation = Reservation::find($number)->with('rooms')->get();
+			//if($request->input('rooms'))
+				//$reservationWithRooms = Reservation::find($number)->with('rooms')->get();
+				
+			$reservation['rooms'] = ReservationController::getRoomsForReservation($number);
 			return response()->json($reservation);
 		}
 		else
@@ -54,6 +56,7 @@ class ReservationController extends Controller{
 		$reservation->dinners_count = $request->input('dinners_count');
 		$reservation->people_count = $request->input('people_count');
 		
+		die($reservation);
 		$reservation->save();
 
 
@@ -85,17 +88,17 @@ class ReservationController extends Controller{
 		if(!$reservation) 
 			return response('Rezerwacja nie została odnaleziona.', 404)->header('Content-Type', 'text/html; charset=utf-8');
 
-		if($request->input('locator_id'))
+		if(!is_null($request->input('locator_id')))
 			$reservation->locator_id = $request->input('locator_id');
 		if($request->input('since'))
 			$reservation->since = $request->input('since');
 		if($request->input('till'))
 			$reservation->till = $request->input('till');
-		if($request->input('is_paid'))
+		if(!is_null($request->input('is_paid')))
 			$reservation->is_paid = $request->input('is_paid');
-		if($request->input('dinners_count'))
+		if(!is_null($request->input('dinners_count')))
 			$reservation->dinners_count = $request->input('dinners_count');
-		if($request->input('people_count'))
+		if(!is_null($request->input('people_count')))
 			$reservation->people_count = $request->input('people_count');
 
 		if($request->input('rooms')) {
@@ -106,6 +109,18 @@ class ReservationController extends Controller{
 
 		return response()->json($reservation);
 	}
+
+	private function getRoomsForReservation($reservationID) {
+		$reservationWithRooms = Reservation::with('rooms')->get()->find($reservationID);
+		
+		$roomsList = array();
+		foreach($reservationWithRooms['rooms'] as $room) {
+			$roomsList[] = $room['number'];
+		}
+
+		return $roomsList;
+	}
+
 }
 
 ?>
