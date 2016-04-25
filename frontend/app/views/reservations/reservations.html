@@ -7,7 +7,7 @@
   <div class="table-container">
     <form>
     <div class="form-group">
-	<input type="search" ng-model="search.input" placeholder="lub wyszukaj (po imieniu, nazwisku, telefonie, e-mailu)" ng-keyup="search.keyUp()">
+	<input type="search" class="form-control" ng-model="search.input" placeholder="lub wyszukaj (po imieniu, nazwisku, telefonie, e-mailu)" ng-keyup="search.keyUp()">
   </div>
   </form>
 
@@ -27,8 +27,8 @@
       <tr ng-repeat="reservation in future_reservations" data-id="{{reservation.id}}">
         <td st-sort="name">{{reservation.locator.name}}</td>
         <td st-sort="surname">{{reservation.locator.surname}}</td>
-        <td st-sort="since">{{reservation.since}}</td>
-        <td st-sort="till">{{reservation.till}}</td>
+        <td st-sort="since">{{reservation.since | date: 'MMM d, y H:mm:ss' }}</td>
+        <td st-sort="till">{{reservation.till | date: 'MMM d, y H:mm:ss' }}</td>
         <!--<td st-sort="paid">{{is_paid == "1" ? 'Tak': 'Nie'}}</td>
         <td st-sort="people_count">{{reservation.people_count}}</td>
         <td st-sort="dinner_count">{{reservation.dinners_count}}</td>-->

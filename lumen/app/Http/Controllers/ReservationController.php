@@ -17,6 +17,11 @@ class ReservationController extends Controller{
 		else 
 			$reservations = Reservation::all();
 
+		foreach($reservations as $reservation) {
+			$reservation['since'] = date("Y-m-d\TH:i:s.000\Z", strtotime($reservation['since']));
+			$reservation['till'] = date("Y-m-d\TH:i:s.000\Z", strtotime($reservation['till']));
+		}
+		
 		return response()->json($reservations);
 	}
 
@@ -24,10 +29,10 @@ class ReservationController extends Controller{
 		$reservation = Reservation::find($number);
 
 		if($reservation) {
-			//if($request->input('rooms'))
-				//$reservationWithRooms = Reservation::find($number)->with('rooms')->get();
-				
 			$reservation['rooms'] = ReservationController::getRoomsForReservation($number);
+			$reservation['since'] = date("Y-m-d\TH:i:s.000\Z", strtotime($reservation['since']));
+			$reservation['till'] = date("Y-m-d\TH:i:s.000\Z", strtotime($reservation['till']));
+
 			return response()->json($reservation);
 		}
 		else
@@ -49,23 +54,17 @@ class ReservationController extends Controller{
 
 		
 		$reservation->locator_id = $request->input('locator_id');
-		$reservation->reservation_time = date('Y-m-d H:i:s', time());
+		$reservation->reservation_time = date('Y-m-d H:i:sZ', time());
 		$reservation->since = $request->input('since');
 		$reservation->till = $request->input('till');
 		$reservation->is_paid = $request->input('is_paid');
 		$reservation->dinners_count = $request->input('dinners_count');
 		$reservation->people_count = $request->input('people_count');
 		
-		die($reservation);
 		$reservation->save();
 
 
 		$reservation->rooms()->sync($request->input('rooms'));
-		/*
-		foreach($request->input('rooms') as $room) {
-			$reservation->rooms()->attach($room);
-		}*/
-		
 		$reservation->save();
 		return response()->json($reservation);
 	}

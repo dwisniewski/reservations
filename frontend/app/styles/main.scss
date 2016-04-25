@@ -173,6 +173,26 @@ body {
 }
 
 
+.reservation_edit {
+  table {
+    width: 100%;
+  }
+
+  thead {
+    font-weight: bolder;
+  }
+
+  td {
+    border: 1px solid #c2c2c2;
+    padding: 2px;
+  }
+
+  .room_btn {
+    margin: 5px;
+  }
+}
+
+
 /*                        */
 .reservations, .locators {
   table {

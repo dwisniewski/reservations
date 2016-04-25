@@ -38,6 +38,7 @@ module.exports = function(config) {
       'bower_components/fullcalendar/dist/fullcalendar.js',
       'bower_components/angular-ui-calendar/src/calendar.js',
       'bower_components/angular-ui-bootstrap-datetimepicker/datetimepicker.js',
+      'bower_components/typeahead.js/dist/typeahead.bundle.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

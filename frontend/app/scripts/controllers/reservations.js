@@ -57,7 +57,6 @@ angular.module('frontendApp')
     $scope.paidOptions = [{"id": 1, "text": "Tak"}, {"id": 0, "text": "Nie"}];
       
       for(var i=0; i<$scope.locators.length; i++){
-        //console.log($scope.locators[i]);
         $scope.locatorsIDName.push({
           "name_surname": $scope.locators[i].surname + " " + $scope.locators[i].name,
           "id": $scope.locators[i].id
@@ -69,34 +68,24 @@ angular.module('frontendApp')
     function update_roomlist() {
       if($scope.reservation.since !== undefined && $scope.reservation.till !== undefined) {
         $('#rooms_view').removeClass('hidden');
-        //console.log('xxx');
+        
         $http({
           method: 'get',
           url: "/api/rooms_free/"+$filter('date')($scope.reservation.since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.reservation.till,'yyyy-MM-dd HH:mm:ss')+"/"
         }).success(function(response) {
-          /*console.log("/api/rooms_free/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/");*/
-          //console.log("/api/rooms_free/"+$filter('date')($scope.reservation.since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.reservation.till,'yyyy-MM-dd HH:mm:ss')+"/");
-          $scope.all_rooms = response;
+          $scope.available_rooms = response;
           $scope.chosen_rooms = [];
-          //console.log($scope.all_rooms);
         });
       }      
     }
 
     $scope.assignRoom = function(number) {
-      console.log("Assign number: " + number);
-      console.log($scope.all_rooms);
-      for(var i=0; i<$scope.all_rooms.length; i++) {
+      for(var i=0; i<$scope.available_rooms.length; i++) {
 
-        //console.log(number + " " + $scope.all_rooms[i].number);
-        if($scope.all_rooms[i].number == number) {
+        if($scope.available_rooms[i].number == number) {
           console.log("Found room: " + number);
-          var roomsArray = $scope.all_rooms.splice(i, 1);
+          var roomsArray = $scope.available_rooms.splice(i, 1);
           $scope.chosen_rooms = $scope.chosen_rooms.concat(roomsArray);
-          console.log("Chosen rooms:");
-          console.log($scope.chosen_rooms);
-          console.log("all_rooms: ");
-          console.log($scope.all_rooms);
           return;
         }
       }
@@ -108,7 +97,7 @@ angular.module('frontendApp')
         //console.log(number + " " + $scope.chosen_rooms[i].number);
         if($scope.chosen_rooms[i].number == number) {
           var roomsArray = $scope.chosen_rooms.splice(i, 1);
-          $scope.all_rooms = $scope.all_rooms.concat(roomsArray);
+          $scope.available_rooms = $scope.available_rooms.concat(roomsArray);
           return;
         }
       }
@@ -127,25 +116,27 @@ angular.module('frontendApp')
     });
 
     $scope.saveNew = function() {
-      console.log($scope.reservation);
       $scope.reservation.rooms = [];
       for(var i=0; i<$scope.chosen_rooms.length; i++) {
-        console.log("Iterate before save: " + i + " " + $scope.chosen_rooms[i].number);
-
         $scope.reservation.rooms.push($scope.chosen_rooms[i].number);
       }
       Reservation.save($scope.reservation);
       $location.path('/reservations/');
     };
+
+    $scope.redirectMainPage = function() {
+      $location.path('/reservations/');
+    };
   }])
 
   .controller('ReservationEditionCtrl', ['$http', '$scope',  '$filter',  '$routeParams', '$location', 'Room', 'Locator', 'Reservation', function ($http, $scope, $filter, $routeParams, $location, Room, Locator, Reservation) {
-    console.log("Accessing reservation" + $routeParams.id);
+    
     $scope.paidOptions = [{"id": 1, "text": "Tak"}, {"id": 0, "text": "Nie"}];
     $scope.reservation = Reservation.get({id: $routeParams.id}, function() {
-    $scope.all_rooms = []
+    $scope.available_rooms = []
     $scope.chosen_rooms = [];
-
+    $scope.reservation.since = new Date($scope.reservation.since);
+    $scope.reservation.till = new Date($scope.reservation.till);
 
     $('#rooms_view').removeClass('hidden');
      
@@ -157,7 +148,7 @@ angular.module('frontendApp')
           method: 'get',
           url: "/api/rooms_free/"+$filter('date')($scope.reservation.since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.reservation.till,'yyyy-MM-dd HH:mm:ss')+"/"
         }).success(function(response) {
-          $scope.all_rooms = response;
+          $scope.available_rooms = response;
           $scope.chosen_rooms = [];
         });
 
@@ -165,12 +156,12 @@ angular.module('frontendApp')
           method: 'get',
           url: "/api/room/"
         }).success(function(response) {
-          var fullRoomList = response;
+          var rooms_in_building = response;
         
-          for(var i=0; i<fullRoomList.length; i++) {
+          for(var i=0; i<rooms_in_building.length; i++) {
             for(var j=0; j<$scope.reservation.rooms.length; j++) {
-              if(fullRoomList[i].number == $scope.reservation.rooms[j]) {
-                $scope.chosen_rooms.push(fullRoomList[i]);
+              if(rooms_in_building[i].number == $scope.reservation.rooms[j]) {
+                $scope.chosen_rooms.push(rooms_in_building[i]);
                 continue;
               }
             }
@@ -179,23 +170,26 @@ angular.module('frontendApp')
       }      
     });
 
-    $scope.assignRoom = function(number) {
-      console.log("Assign number: " + number);
-      console.log($scope.all_rooms);
-      for(var i=0; i<$scope.all_rooms.length; i++) {
-
-        //console.log(number + " " + $scope.all_rooms[i].number);
-        if($scope.all_rooms[i].number == number) {
-          console.log("Found room: " + number);
-          var roomsArray = $scope.all_rooms.splice(i, 1);
-          $scope.chosen_rooms = $scope.chosen_rooms.concat(roomsArray);
-          console.log("Chosen rooms:");
-          console.log($scope.chosen_rooms);
-          console.log("all_rooms: ");
-          console.log($scope.all_rooms);
-          return;
-        }
+    $scope.locators = Locator.query(function() {
+    $scope.locatorsIDName = [];
+      
+      for(var i=0; i<$scope.locators.length; i++){
+        $scope.locatorsIDName.push({
+          "name_surname": $scope.locators[i].surname + " " + $scope.locators[i].name,
+          "id": $scope.locators[i].id
+        });
       }
+    });
+    
+
+    $scope.assignRoom = function(number) {
+      for(var i=0; i<$scope.available_rooms.length; i++) {
+          if($scope.available_rooms[i].number == number) {
+            var roomsArray = $scope.available_rooms.splice(i, 1);
+            $scope.chosen_rooms = $scope.chosen_rooms.concat(roomsArray);
+            return;
+          }
+        }
     }
 
     $scope.unassignRoom = function(number) {
@@ -204,36 +198,24 @@ angular.module('frontendApp')
         //console.log(number + " " + $scope.chosen_rooms[i].number);
         if($scope.chosen_rooms[i].number == number) {
           var roomsArray = $scope.chosen_rooms.splice(i, 1);
-          $scope.all_rooms = $scope.all_rooms.concat(roomsArray);
+          $scope.available_rooms = $scope.available_rooms.concat(roomsArray);
           return;
         }
       }
     }
 
-   // $scope_rooms
-
-    $scope.locators = Locator.query(function() {
-    $scope.locatorsIDName = [];
-      
-      for(var i=0; i<$scope.locators.length; i++){
-        //console.log($scope.locators[i]);
-        $scope.locatorsIDName.push({
-          "name_surname": $scope.locators[i].surname + " " + $scope.locators[i].name,
-          "id": $scope.locators[i].id
-        });
-      }
-    });
-
-
     $scope.saveChanges = function() {
-       $scope.reservation.rooms = [];
+      $scope.reservation.rooms = [];
+      
       for(var i=0; i<$scope.chosen_rooms.length; i++) {
-        console.log("Iterate before save: " + i + " " + $scope.chosen_rooms[i].number);
-
         $scope.reservation.rooms.push($scope.chosen_rooms[i].number);
       }
+      
       Reservation.update({id: $scope.reservation.id}, $scope.reservation);
-      console.log($scope.reservation);
+      $location.path('/reservations/');
+    };
+
+    $scope.redirectMainPage = function() {
       $location.path('/reservations/');
     };
   }]);
