@@ -1,7 +1,9 @@
 
 <div class="form-group">
   <label for="locator">Mieszkaniec:</label>
-  <select class="form-control" id="locator" ng-model="reservation.locator_id" ng-options="locator.id as locator.name_surname for locator in locatorsIDName">
+  <select class="form-control" id="locator" ng-model="reservation.locator_id" ng-options="locator.id as locator.name_surname for locator in locatorsIDName" required>
+
+    <option value="">-- Wybierz osobę --</option>
 </select>
 </div>
 <p>Od: 
@@ -37,16 +39,16 @@
 </div>
 <div class="form-group">
   <label for="is_paid">Czy opłacono?</label>
-  <select class="form-control" id="is_paid" ng-model="reservation.is_paid" ng-options="paidOption.id as paidOption.text for paidOption in paidOptions">
+  <select class="form-control" id="is_paid" ng-model="reservation.is_paid" ng-options="paidOption.id as paidOption.text for paidOption in paidOptions" required>
   </select>
 </div>
 <div class="form-group">
   <label for="people">Ile osób?</label>
-  <input type="number" class="form-control" id="people" ng-model="reservation.people_count">
+  <input type="number" class="form-control" id="people" ng-model="reservation.people_count" min="0" max="50" required>
 </div>
 <div class="form-group">
   <label for="dinners">Ile obiadów?</label>
-  <input type="number" class="form-control" id="dinners" ng-model="reservation.dinners_count">
+  <input type="number" class="form-control" id="dinners" ng-model="reservation.dinners_count" min="0" max="50" required>
 </div>
 
 <button type="submit" class="btn btn-success">Zapisz</button>

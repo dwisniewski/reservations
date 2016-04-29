@@ -87,12 +87,12 @@ class RoomController extends Controller{
 	}
 
 	private function verifyDate($date) {
+		return true;
 		if($date == null)
 			return true;
-		$d = DateTime::createFromFormat('Y-m-d H:i:s', $date);
-   		return $d && $d->format('Y-m-d H:i:s') == $date;
+		$d = DateTime::createFromFormat('Y-m-d\TH:i:s.000\Z', $date);
+   		return $d && $d->format('Y-m-d\TH:i:s.000\Z') == $date;
 	}
-
 
 	private function getRoomsWithGivenStatus($since, $till, $status) {
 		$available_statuses = ['free', 'occupied', 'excluded', 'occupiedOrExcluded'];

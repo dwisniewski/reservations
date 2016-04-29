@@ -1,0 +1,35 @@
+<div class="jumbotron rooms">
+  <h2>Pokoje - panel zarządzania
+  	<!-- <a ng-href="#/create/locator/" class="btn btn-success" role="button">Stwórz nowego</a> -->
+  	<button class="btn btn-success" role="button" ng-click="createRoom();">Stwórz nowy</button>
+  </h2>
+
+  <div class="table-container">
+
+  <table id="reservations_table" st-table="rowCollection" st-pagination-scroll  st-pipe="callServer" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Numer</th>
+        <th>Liczba miejsc</th>
+        <th>Najbliższe wyłączenie z użytku</th>
+        <th>Edycja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="room in found_rooms" data-id="{{room.number}}">
+        <td st-sort="number">{{room.number}}</td>
+        <td st-sort="capacity">{{room.capacity}}</td>
+        <td st-sort="since"></td>
+        
+        <td>
+          <div class = "btn-group">
+          	
+            <a ng-click="editRoom({{room.number}})" class="btn btn-success btn-xs" type="button" role="button">Edytuj</a>
+          	<a ng-click="deleteRoom({{room.number}})" class="btn btn-danger btn-xs" type="button" role="button">Usuń</a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

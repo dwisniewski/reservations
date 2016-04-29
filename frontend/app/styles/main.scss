@@ -10,6 +10,11 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
   }
 }
 
+.inline-control {
+  width: auto;
+  display: inline;
+}
+
 .fc-toolbar {
   button {
     font-size: 12px !important;

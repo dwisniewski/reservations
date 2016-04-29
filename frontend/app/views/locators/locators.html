@@ -28,7 +28,7 @@
         <td st-sort="phone">{{locator.phone}}</td>
         <td st-sort="email">{{locator.email}}</td>
         <td>
-           <a ng-href="#/locators/{{locator.id}}" class="btn btn-primary btn-xs" role="button">Rezerwacje</button>
+           <a ng-click="seeLocatorReservations({{locator.id}})" class="btn btn-primary btn-xs" role="button">Rezerwacje</button>
         </td>
         <td>
           <div class = "btn-group">

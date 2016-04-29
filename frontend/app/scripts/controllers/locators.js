@@ -19,9 +19,9 @@ angular.module('frontendApp')
 	    	LocatorByToken.query({'token': $scope.search.input}, function(data) {
 	    		$scope.all_locators = data;
 	    	});
-		} else {
-			$scope.all_locators = Locator.query();
-		}
+  		} else {
+  			$scope.all_locators = Locator.query();
+  		}
     };
 
     $scope.createLocator = function() {
@@ -32,6 +32,10 @@ angular.module('frontendApp')
     	$location.path('/locator-edit/' + userID);
     };
 
+    $scope.seeLocatorReservations = function(userID) {
+      $location.path('/reservations-for-user/'+userID);
+    }
+
     $scope.deleteLocator = function(userID) {
     	var modalOptions = {
             closeButtonText: 'Nie usuwaj',
@@ -41,34 +45,30 @@ angular.module('frontendApp')
         };
 
         modalService.showModal({}, modalOptions).then(function (result) {
-        	console.log('deleting' + userID);
 	    	Locator.remove({id: userID}, function(success) {
-				$("table").find("[data-id='" + userID + "']").fadeOut();
-	    	});
+  				$("table").find("[data-id='" + userID + "']").fadeOut();
+  	    	});
         }, null);
-
-
-
     };
   }])
 
   .controller('LocatorCreationCtrl', ['$scope', '$location', 'Locator',  function ($scope, $location, Locator) {
   	$scope.locator = new Locator();
   	$scope.saveNew = function() {
-  		console.log($scope.locator);
   		Locator.save($scope.locator);
   		$location.path('/locators/');
   	};
-  }])
 
-  .controller('LocatorEditionCtrl', ['$scope', '$routeParams', '$location', 'Locator', function ($scope, $routeParams, $location, Locator) {
+    
+  }]).controller('LocatorEditionCtrl', ['$scope', '$routeParams', '$location', 'Locator', function ($scope, $routeParams, $location, Locator) {
   	$scope.locator = Locator.get({id: $routeParams.id});
   	
   	$scope.saveChanges = function() {
   		Locator.update({id: $scope.locator.id}, $scope.locator);
-  		console.log($scope.locator);
   		$location.path('/locators/');
   	};
+  
+
   }]).directive('capitalize', function() {
    return {
      require: 'ngModel',
@@ -87,6 +87,8 @@ angular.module('frontendApp')
          capitalize(scope[attrs.ngModel]);  // capitalize initial value
      }
    };
+
+
 }).directive('removespaces', function() {
    return {
      require: 'ngModel',

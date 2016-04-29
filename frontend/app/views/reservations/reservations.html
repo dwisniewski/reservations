@@ -4,12 +4,32 @@
   	<button class="btn btn-success" role="button" ng-click="createReservation();">Stwórz nową</button>
   </h2>
 
-  <div class="table-container">
-    <form>
+  <h5>Filtrowanie zawartości:</h5>
     <div class="form-group">
-	<input type="search" class="form-control" ng-model="search.input" placeholder="lub wyszukaj (po imieniu, nazwisku, telefonie, e-mailu)" ng-keyup="search.keyUp()">
-  </div>
-  </form>
+    <form>
+    <!--<input type="search" class="form-control" ng-model="search.input" placeholder="lub wyszukaj (po imieniu, nazwisku, telefonie, e-mailu)" ng-keyup="search.keyUp()">
+    </div>
+    -->
+    <label>Od: </label>
+ <input type="datetime-local" id="since" name="filter_since" ng-model="filter_since"
+      placeholder="yyyy-MM-ddTHH:mm:ssZ" min="2001-01-01T00:00:00" max="2025-12-31T00:00:00" required />
+
+  <label>Do: </label>
+ <input type="datetime-local" id="since" name="filter_till" ng-model="filter_till"
+      placeholder="yyyy-MM-ddTHH:mm:ssZ" min="2001-01-01T00:00:00" max="2025-12-31T00:00:00" required />
+
+<label> Lokator: </label>
+  <select class="form-control inline-control" id="locator" ng-model="filter_locatorid" ng-options="locator.id as locator.name_surname for locator in locatorsIDName" required>
+
+    <option value="">-- Wybierz osobę --</option>
+</select>
+</form>
+</div>
+
+
+
+
+  <div class="table-container">
 
   <br/> 
   <table id="reservations_table" st-table="rowCollection" st-pagination-scroll  st-pipe="callServer" class="table table-striped">

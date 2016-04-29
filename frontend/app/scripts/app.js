@@ -47,6 +47,10 @@ angular
         templateUrl: 'views/reservations/reservations.update.html',
         controller: 'ReservationEditionCtrl',
         controllerAs: 'reservationUpdate'
+      }).when('/reservations-for-user/:userID', {
+        templateUrl: 'views/reservations/reservations.html',
+        controller: 'ReservationsForUserCtrl',
+        controllerAs: 'reservationsForUser'
       }).when('/room-find', {
         templateUrl: 'views/rooms_finder.html',
         controller: 'RoomsFindCtrl',

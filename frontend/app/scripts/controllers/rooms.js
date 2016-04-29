@@ -23,18 +23,14 @@ angular.module('frontendApp')
 
     function update_roomlist() {
       if($scope.date_since !== undefined && $scope.date_till !== undefined) {
-        //console.log('xxx');
         $http({
           method: 'get',
-          url: "/api/" + $scope.room_state + "/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/"
+          url: "http://asiliwar.idl.pl/rezerwacje/public/index.php/api/" + $scope.room_state + "/"+$filter('date')($scope.date_since,'yyyy-MM-ddTHH:mm:ss.sssZ', 'UTC')+"/"+$filter('date')($scope.date_till,'yyyy-MM-ddTHH:mm:ss.sssZ', 'UTC')
         }).success(function(response) {
-          /*console.log("/api/rooms_free/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/");*/
-          console.log("/api/" + $scope.room_state + "/"+$filter('date')($scope.date_since,'yyyy-MM-dd HH:mm:ss')+"/"+$filter('date')($scope.date_till,'yyyy-MM-dd HH:mm:ss')+"/");
           $scope.all_rooms = response;
         });
       }      
     }
-
 
     $scope.$watch(function() {
       return $scope.date_since;
@@ -54,35 +50,6 @@ angular.module('frontendApp')
       update_roomlist();
     });
 
-/*
-    var modalOptions = {
-          closeButtonText: 'Odrzuć wybór',
-          actionButtonText: 'Użyj przedziału czasu',
-          headerText: 'Wybór godziny',
-          bodyText: 'Podaj godzinę początkową i końcową dla wybranych dni'
-      };
-  */
-  /*	$scope.uiConfig = {
-      calendar:{
-        editable: true,
-        selectable: true,
-        lang: "pl",
-        header:{
-          center: 'Wybierz datę z listy',
-          right: 'today prev,next'
-        },
-        //dayNames: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'],
-        //dayNamesShort: ['Nie', 'Pon', 'Wt', 'Śr', 'Czw', 'Pią', 'Sob'],
-        dayClick: function(ev) {       
-          console.log(ev);
-          modalTimeService.showModal({}, modalOptions).then(function (result) {
-            console.log('deleting' + userID);
-            
-      }, null); return false; },
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize
-      }
-    };*/
 
   }]).controller('RoomsCtrl', ['$scope', '$location', 'Room', 'modalService',  function ($scope, $location, Room, modalService) {
     $scope.found_rooms = Room.query();
@@ -101,14 +68,13 @@ angular.module('frontendApp')
             actionButtonText: 'Usuń pokój',
             headerText: 'Czy usunąć pokój?',
             bodyText: 'Czy na pewno chcesz usunąć wybrany pokój?'
-        };
+      };
 
-        modalService.showModal({}, modalOptions).then(function (result) {
-        console.log('deleting' + roomID);
+      modalService.showModal({}, modalOptions).then(function (result) {
         Room.remove({number: roomID}, function(success) {
-        $("table").find("[data-id='" + roomID + "']").fadeOut();
+           $("table").find("[data-id='" + roomID + "']").fadeOut();
         });
-        }, null);
+      }, null);
     };
 
 
@@ -116,18 +82,16 @@ angular.module('frontendApp')
     $scope.room = new Room();
     
     $scope.saveNew = function() {
-      console.log($scope.room);
       Room.save($scope.room);
       $location.path('/rooms/');
     };
-  }])
 
-  .controller('RoomEditionCtrl', ['$scope', '$routeParams', '$location', 'Room', function ($scope, $routeParams, $location, Room) {
+    
+  }]).controller('RoomEditionCtrl', ['$scope', '$routeParams', '$location', 'Room', function ($scope, $routeParams, $location, Room) {
     $scope.room = Room.get({number: $routeParams.id});
     
     $scope.saveChanges = function() {
       Room.update({number: $scope.room.number}, $scope.room);
-      console.log($scope.room);
       $location.path('/rooms/');
     };
   }]);

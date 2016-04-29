@@ -12,8 +12,12 @@ class ReservationController extends Controller{
 	public function index(Request $request) {
 		$reservations = null;
 		
-		if($request->input('with_locators')) 
+		if($request->input('with_locators')) {
 			$reservations = Reservation::with('locator')->get();
+		}
+		else if($request->input('for_locator') !== null) {
+			$reservations = Reservation::with('locator')->where('locator_id', '=', $request->input('for_locator'))->get();
+		}
 		else 
 			$reservations = Reservation::all();
 
@@ -24,6 +28,40 @@ class ReservationController extends Controller{
 		
 		return response()->json($reservations);
 	}
+	
+	public function getFiltered($locatorID, $since, $till) {
+		$reservations = Reservation::with('locator');
+		
+		$locatorID = $locatorID == 'undefined' ? null : $locatorID;
+		$since = $since == 'undefined' ? null : rawurldecode($since);
+		$till = $till == 'undefined' ? null : rawurldecode($till);
+		
+		if($locatorID !== null) {
+			$reservations = $reservations->where('locator_id', '=', $locatorID);
+		}
+
+		if($since !== null) {
+			$reservations = $reservations->where('since', '>=', $since);
+		}
+
+
+		if($till !== null) {
+			$reservations = $reservations->where('till', '<=', $till);
+		}
+
+
+		$reservations = $reservations->get();
+		
+
+
+		foreach($reservations as $reservation) {
+			$reservation['since'] = date("Y-m-d\TH:i:s.000\Z", strtotime($reservation['since']));
+			$reservation['till'] = date("Y-m-d\TH:i:s.000\Z", strtotime($reservation['till']));
+		}
+		
+		return response()->json($reservations);
+	}
+
 
 	public function getReservation(Request $request, $number) {
 		$reservation = Reservation::find($number);
@@ -119,7 +157,6 @@ class ReservationController extends Controller{
 
 		return $roomsList;
 	}
-
 }
 
 ?>
